@@ -1,188 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Flip Clock</title>
+<title>Minimal Flip Clock</title>
 
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-
 <style>
 
-*{
-box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
+html, body {
 
-body{
+    margin: 0;
+    padding: 0;
 
-margin:0;
+    width: 100%;
+    height: 100%;
 
-height:100vh;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-background:transparent;
-
-font-family:Inter,sans-serif;
+    background: transparent;
 
 }
 
 
-.clock-card{
+body {
 
-width:260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-padding:10px;
-
-background:transparent;
-
-border:none;
-
-text-align:center;
-
-box-shadow:none;
+    font-family: Inter, sans-serif;
 
 }
 
 
+.clock-container {
 
-.clock{
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-gap:5px;
+    text-align: center;
 
 }
 
 
-.flip{
+/* CLOCK */
 
-width:45px;
+.clock {
 
-height:58px;
+    display: flex;
 
-background:#E8E1D5;
+    align-items: center;
 
-border-radius:9px;
+    justify-content: center;
 
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-family:"DM Serif Display",serif;
-
-font-size:36px;
-
-color:#454540;
-
-position:relative;
-
-overflow:hidden;
+    gap: 5px;
 
 }
 
 
-.flip:after{
+.flip {
 
-content:"";
+    width: 48px;
 
-position:absolute;
+    height: 60px;
 
-height:1px;
+    background: #E9E2D6;
 
-width:100%;
+    border-radius: 10px;
 
-background:#CFC6B8;
+    display: flex;
 
-top:50%;
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    font-family: "DM Serif Display", serif;
+
+    font-size: 38px;
+
+    color: #454540;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 
 }
 
 
+.flip::after {
 
-.animate{
+    content: "";
 
-animation:flip .35s ease;
+    position: absolute;
+
+    top: 50%;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #D0C7B8;
 
 }
 
 
 
-@keyframes flip{
+.flip.animate {
 
-0%{
-transform:rotateX(0deg);
-}
-
-50%{
-transform:rotateX(-90deg);
-}
-
-100%{
-transform:rotateX(0deg);
-}
+    animation: flipAnimation .35s ease;
 
 }
 
 
 
-.colon{
+@keyframes flipAnimation {
 
-font-size:30px;
+    0% {
 
-color:#93A68B;
+        transform: rotateX(0deg);
 
-}
-
-
-
-.ampm{
-
-margin-left:8px;
-
-font-size:14px;
-
-color:#7D9276;
-
-font-weight:500;
-
-}
+    }
 
 
+    50% {
 
-.date{
+        transform: rotateX(-90deg);
 
-margin-top:20px;
+    }
 
-font-size:14px;
 
-line-height:1.6;
+    100% {
 
-color:#817B72;
+        transform: rotateX(0deg);
+
+    }
 
 }
 
 
 
-.day{
+.colon {
 
-font-weight:500;
+    font-family: "DM Serif Display", serif;
 
-color:#657565;
+    font-size: 36px;
+
+    color: #92A58A;
+
+}
+
+
+.ampm {
+
+    margin-left: 8px;
+
+    font-size: 14px;
+
+    color: #73846D;
+
+    font-weight: 500;
+
+}
+
+
+/* DATE */
+
+.date {
+
+    margin-top: 18px;
+
+    color: #7D786F;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+.day {
+
+    color: #64735F;
+
+    font-weight: 500;
 
 }
 
@@ -190,14 +197,13 @@ color:#657565;
 
 </style>
 
-
 </head>
 
 
 <body>
 
 
-<div class="clock-card">
+<div class="clock-container">
 
 
 <div class="clock">
@@ -227,101 +233,101 @@ color:#657565;
 
 <div class="day" id="day"></div>
 
-<div id="fullDate"></div>
+<div id="date"></div>
 
 </div>
 
 
-
 </div>
+
 
 
 
 <script>
 
 
-function updateClock(){
+function updateClock() {
 
 
-let now=new Date();
+    const now = new Date();
 
 
-let hours=now.getHours();
+    let hours = now.getHours();
 
-let minutes=now.getMinutes();
-
-
-let ampm=hours>=12 ? "PM":"AM";
+    let minutes = now.getMinutes();
 
 
-hours=hours%12 || 12;
+    let ampm = hours >= 12 ? "PM" : "AM";
 
 
+    hours = hours % 12 || 12;
 
-let time=
 
-String(hours).padStart(2,"0")
+    let time = 
 
-+
+        String(hours).padStart(2,"0") +
 
-String(minutes).padStart(2,"0");
+        String(minutes).padStart(2,"0");
 
 
 
-let boxes=["h1","h2","m1","m2"];
+    const boxes = ["h1","h2","m1","m2"];
 
 
 
-boxes.forEach((box,index)=>{
+    boxes.forEach((id,index)=>{
 
 
-let element=document.getElementById(box);
+        const element = document.getElementById(id);
 
 
-if(element.innerHTML!==time[index]){
+        if(element.textContent !== time[index]) {
 
 
-element.classList.remove("animate");
-
-void element.offsetWidth;
-
-element.classList.add("animate");
-
-element.innerHTML=time[index];
+            element.classList.remove("animate");
 
 
-}
+            void element.offsetWidth;
 
 
-});
+            element.classList.add("animate");
 
 
-
-document.getElementById("ampm").innerHTML=ampm;
-
+            element.textContent = time[index];
 
 
-document.getElementById("day").innerHTML=
+        }
 
-now.toLocaleDateString([],{
 
-weekday:"long"
-
-});
+    });
 
 
 
-document.getElementById("fullDate").innerHTML=
+    document.getElementById("ampm").textContent = ampm;
 
-now.toLocaleDateString([],{
 
-month:"long",
 
-day:"numeric",
+    document.getElementById("day").textContent = 
 
-year:"numeric"
+        now.toLocaleDateString([], {
 
-});
+            weekday:"long"
+
+        });
+
+
+
+    document.getElementById("date").textContent =
+
+        now.toLocaleDateString([], {
+
+            month:"long",
+
+            day:"numeric",
+
+            year:"numeric"
+
+        });
 
 
 
@@ -340,4 +346,5 @@ setInterval(updateClock,1000);
 
 
 </body>
+
 </html>
